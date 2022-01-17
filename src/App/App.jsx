@@ -21,9 +21,62 @@ export const App = () => {
     useEffect(() => {
         localStorage.setItem('events', JSON.stringify(events))
     }, [events])
+    // Кожного разу, як івентс(другий аргумент) змінюється в стейті, сетається значення івентс в локал сторедж
 
-    // 27:20// 27:20// 27:20// 27:20// 27:20// 27:20// 27:20// 27:20// 27:20// 27:20// 27:20// 27:20// 27:20// 27:20// 27:20// 27:20// 27:20// 27:20// 27:20
+    useEffect(() => {
+        const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        const dt = new Date();
 
+        if (nav !== 0) {
+            dt.setMonth(dt.getMonth() + nav);
+        }
+
+        const day = dt.getDate();
+        const month = dt.getMonth(); //4 moth object using index value, it starts from 0, not 1(jan=0)
+        const year = dt.getFullYear();
+
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const firstDayOfMonth = new Date(year, month, 1);
+
+        const dateString = firstDayOfMonth.toLocaleDateString('en-GB', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        });
+
+        setDateDisplay(`${dt.toLocaleString('en-GB', {month: 'long'})} ${year}`)
+        const paddingDays = weekdays.indexOf(dateString.split(', ')[0]);
+
+
+        const daysArr = [];
+
+        for (let i = 1; i <= paddingDays + daysInMonth; i++) {
+            const dayString = `${i - paddingDays}/${month + 1}/${year}`
+
+            if (i > paddingDays) {
+                daysArr.push({
+                    value: i - paddingDays,
+                    event: eventForDate(dayString),
+                    isCurrentDay: i - paddingDays === day && nav === 0,
+                    date: dayString,
+                })
+            } else {
+                daysArr.push({
+                    value: 'padding',
+                    event: null,
+                    isCurrentDay: false,
+                    date: '',
+                })
+            }
+        }
+
+        setDays(daysArr);
+
+    }, [events, nav])
+
+
+    // 38:40// 38:40// 38:40// 38:40// 38:40// 38:40// 38:40// 38:40// 38:40// 38:40// 38:40// 38:40// 38:40
     return (
         <div id="container">
             <CalendarHeader />
