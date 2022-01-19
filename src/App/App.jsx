@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {CalendarHeader} from "./Components/CalendarHeader/CalendarHeader";
 import {Day} from "./Components/Day/Day";
+import {NewEventModal} from "./Components/NewEventModal/NewEventModal";
+import {DeleteEventModal} from "./Components/DeleteEventModal/DeleteEventModal";
 
 export const App = () => {
 
@@ -13,7 +15,6 @@ export const App = () => {
             JSON.parse(localStorage.getItem('events')) :
             []
     );
-
 
 
     const eventForDate = date => events.find(e => e.date === date);
@@ -78,31 +79,55 @@ export const App = () => {
 
     // 38:40// 38:40// 38:40// 38:40// 38:40// 38:40// 38:40// 38:40// 38:40// 38:40// 38:40// 38:40// 38:40
     return (
-        <div id="container">
-            <CalendarHeader />
+        <>
+            <div id="container">
+                <CalendarHeader/>
 
-            <div id="weekdays">
-                <div>Monday</div>
-                <div>Tuesday</div>
-                <div>Wednesday</div>
-                <div>Thursday</div>
-                <div>Friday</div>
-                <div>Saturday</div>
-                <div>Sunday</div>
-            </div>
+                <div id="weekdays">
+                    <div>Monday</div>
+                    <div>Tuesday</div>
+                    <div>Wednesday</div>
+                    <div>Thursday</div>
+                    <div>Friday</div>
+                    <div>Saturday</div>
+                    <div>Sunday</div>
+                </div>
 
-            <div id="calendar">
-                {days.map((day, index) => (
-                    <Day key={index} day={day}
-                         onClick={() => {
-                             if (day.value !== 'padding') {
-                                 setClicked(day.date);
+                <div id="calendar">
+                    {days.map((day, index) => (
+                        <Day key={index} day={day}
+                             onClick={() => {
+                                 if (day.value !== 'padding') {
+                                     setClicked(day.date);
+                                 }
                              }
-                            }
-                         }/>
-                    )) }
+                             }/>
+                    ))}
+                </div>
+
             </div>
 
-        </div>
+            {clicked && !eventForDate(clicked) &&
+            <NewEventModal
+                onClose={() => setClicked(null)}
+                onSave={title => {
+                    setEvents([...events, { title, date: clicked}]); // перезаписує всі івенти(реструктурірує через спред оператор) в масиві і додає 1 новий
+                    setClicked(null);
+                }}
+            />
+            }
+
+            {clicked && eventForDate(clicked) &&
+            <DeleteEventModal
+                onClose={() => setClicked(null)}
+                eventText={eventForDate(clicked).title}
+                onDelete={() => {
+                    setEvents(events.filter(e => e.date !== clicked)); //оставляє всі івенти в масіві, крім того, в якому дата рівна кліку
+                    setClicked(null);
+                }
+                }
+            />
+            }
+        </>
     );
 }

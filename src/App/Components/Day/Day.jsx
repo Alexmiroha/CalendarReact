@@ -1,10 +1,12 @@
 import React from 'react';
 
 export const Day = (props) => {
-    console.log(props)
+    const className = `day ${props.day.value === 'padding' ? 'padding' : ''} ${props.day.isCurrentDay ? 'currentDay' : ''}`;
     return (
-      <div>
-          <br/>{props.day.date}<br/>
+      <div onClick={props.onClick} className={className}>
+          {props.day.value === 'padding' ? '' : props.day.value}
+
+          {props.day.event && <div className='event'>{props.day.event.title}</div>}
       </div>
     )
 }
