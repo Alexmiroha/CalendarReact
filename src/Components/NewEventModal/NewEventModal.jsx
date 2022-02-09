@@ -28,7 +28,7 @@ export const NewEventModal = ( {onSave, onClose} ) => {
                               setError(true)
                           }
                       }}
-                      id="saveButton">Save1234567
+                      id="saveButton">Save
                   </button>
                   <button
                       onClick={onClose}
