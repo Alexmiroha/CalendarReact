@@ -28,7 +28,7 @@ export const NewEventModal = ( {onSave, onClose} ) => {
                               setError(true)
                           }
                       }}
-                      id="saveButton">Save1234567
+                      id="saveButton">Save
                   </button>
                   <button
                       onClick={onClose}
@@ -36,7 +36,7 @@ export const NewEventModal = ( {onSave, onClose} ) => {
                   </button>
           </div>
 
-          <div id="modalBackDrop"></div>
+          <div id="modalBackDrop" onClick={onClose}></div>
 
       </>
     )

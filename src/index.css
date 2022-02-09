@@ -28,6 +28,7 @@ button {
 #header button {
   background-color:#92a1d1;
 }
+
 #container {
   width: 770px;
 }
@@ -115,11 +116,29 @@ button {
   font-size: 14px;
 }
 #modalBackDrop {
-  top: 0px;
-  left: 0px;
-  z-index: 10;
-  width: 100vw;
-  height: 100vh;
+  top: -6000px;
+  left: -6000px;
   position: absolute;
+  z-index: 10;
+  width: 12000px;
+  height: 12000px;
   background-color: rgba(0,0,0,0.8);
+}
+
+@media screen and (max-width: 850px) {
+  #root {
+    transform: scale(0.8);
+  }
+}
+
+@media screen and (max-width: 650px) {
+  #root {
+    transform: scale(0.5);
+  }
+}
+
+@media screen and (max-width: 400px) {
+  #root {
+    transform: scale(0.4);
+  }
 }
